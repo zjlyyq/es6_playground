@@ -65,6 +65,16 @@ ECMAScript中有两种属性：数据属性和访问器属性。
    var person = {
    	name: "Zhang San"
    }
-   ```
-
+   Object.defineProperty(person, 'name', {
+    writable: false,
+       value: 'zjl'
+   })
    
+   person.name = 'yyq';
+   console.log(person.name);  // zjl
+   delete person.name;
+   console.log(person.name);  // zjl
+   ```
+   
+   > 把 configurable 设置为 false，表示不能从对象中删除属性。如果对这个属性调用 delete，则 在非严格模式下什么也不会发生，而在严格模式下会导致错误。**而且，一旦把属性定义为不可配置的， 就不能再把它变回可配置了。**
+
