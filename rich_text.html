@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rich editer</title>
+    <style>
+        .editable_p {
+            margin: 10px 0;
+        }
+
+        [contenteditable='true'] {
+            caret-color: red;
+            background:#ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="editable_p" contenteditable="true" aria-placeholder="edit..." style="text-indent: 1em;"></div>
+
+    <button onclick="getMouseSelection()">获取鼠标选中</button>
+
+    <script>
+        function getMouseSelection() {
+            alert(window.getSelection());
+        }
+    </script>
+</body>
+
+</html>
