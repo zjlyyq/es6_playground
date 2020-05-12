@@ -5,26 +5,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rich editer</title>
+    <link rel="shortcut icon" href="./static/imgs/IMG_0409 2.PNG">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <!-- 矢量图标库 -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <style>
+        .title {
+            text-align: center;
+            font-family: Coca-ColaCareFontKaiTi;
+        }
         .editable_p {
             margin: 10px 0;
+            /* font-family: Coca-ColaCareFontKaiTi; */
         }
 
-        [contenteditable='true'] {
-            caret-color: red;
-            background:#ddd;
+        div[contenteditable='true']:focus {
+            caret-color: rgb(221, 139, 32);
+            /* background:#ddd; */
+            outline: 1px solid rgba(0, 0, 0, .2);
+            padding: 10px 5px;
+            font-size: 24px;
+        }
+
+        div[contenteditable='true'] {
+            margin: 10px;
+            caret-color: rgb(221, 139, 32);
+            /* background:#ddd; */
+            outline: 2px solid rgba(0, 0, 0, .1);
+            padding: 10px 5px;
+            font-size: 24px;
+            /* font-weight: bolder; */
+            color: rgb(221, 139, 32);
+            letter-spacing: 1px;
+        }
+
+        img {
+            display: block;
+            outline: 1px solid;
+        }
+
+        @font-face {
+            font-family: 'Coca-ColaCareFontKaiTi';
+            src: url('./Coca-ColaCareFontKaiTi.TTF');
+            /* background: url(./static/imgs/bolder.png) no-repeat; */
+        }
+        
+        .control_paner {
+            margin: 0 10px;
+            padding: 0 !important;
+        }
+        .control_paner button {
+            background-color: white;
+            border: 0px solid;
+            margin: 0;
+            /* background-repeat: no-repeat;
+            background-clip: border-box;
+            background-position: center;
+            background-size: cover; */
+        }
+        .fa {
+            color: rgba(0, 0, 0, .3);
+        }
+        .fa:hover {
+            color: rgba(0, 0, 0, 1);
+        }
+        .container {
+            width: 70%;
+            margin: 0 auto;
+        }
+        .medium-edit-button {
+            padding: 5px 7px;
+        }
+        .content {
+            min-height: 500px;
+        }
+        .article-title{
+            font-size: 16px;
         }
     </style>
 </head>
 
 <body>
-    <div class="editable_p" contenteditable="true" aria-placeholder="edit..." style="text-indent: 1em;"></div>
+    <div class="container">
+        <h4 class="title">简易版富文本编辑器</h4>
+        <ul class="control_paner">
+            <button class="medium-edit-button" onclick="bolderSelected()"><i class="fa fa-bold"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-italic"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-link"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-underline"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-strikethrough"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-align-justify"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-save"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-code"></i></button>
+            <button class="medium-edit-button"><i class="fa fa-rotate-right fa-pulse"></i></button>
+            <!-- <button style="background-image: url(./static/imgs/insert_photo_24px_rounded.png); "></button > -->
+        </ul>
+        <div>
+            <textarea class="article-title" placeholder="输入标题..." name="" id=""  rows="1">
 
-    <button onclick="getMouseSelection()">获取鼠标选中</button>
-
+            </textarea>
+            <div class="editable_p content" 
+                contenteditable="true" 
+                aria-placeholder="edit..." 
+                data-placeholder="输入正文..."
+                style="text-indent: 1em;">
+            </div>
+        </div>
+        <button class="btn btn-success" onclick="getMouseSelection()">获取鼠标选中</button>
+        <button class="btn btn-success" onclick="rangeCreation()">创建range</button>
+        <button class="btn btn-success" onclick="deleteSelected()">删除range</button>
+        <button class="btn btn-success" onclick="bolderSelected()">字体加粗</button>
+        <!-- <img src="./static/imgs/GameGril_4K.jpeg" width="200px" alt="" srcset="">
+        <img alt="替换元素"> -->
+    </div>
     <script>
+        function bolderSelected() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            var bNode = document.createElement('b');
+            bNode.innerText = (range.toString());
+            console.log(bNode);
+            range.deleteContents();
+            range.insertNode(bNode);
+        }
+        function deleteSelected() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            range.deleteContents();
+        }
+        function rangeCreation() {
+            console.log('createRange');
+            var range1 = document.createRange();
+            var edit_div = $('.editable_p')[0];
+            range1.selectNode(edit_div);
+            var documentFragment = range1.cloneContents();
+            console.log('documentFragment', documentFragment);
+            document.body.appendChild(documentFragment);
+            range1.deleteContents();
+        }
         function getMouseSelection() {
-            alert(window.getSelection());
+            var selection = window.getSelection();
+            // alert(window.getSelection());
+            console.log(selection);
+            var range = selection.getRangeAt(0);
+            console.log("range", range);
+            var edit_div = $('.editable_p')[0];
+            console.log(edit_div);
+            var count = 8;
+            var dir = 'right';
+            // selection.collapse(document.body,0);
+            selection.modify("extend", "backward", "word");
+            console.log(selection);
+            setTimeout(() => {
+                selection.modify("extend", "backward", "word");
+                console.log(selection);
+            }, 10000);
+            console.log(selection);
+            setInterval(function () {
+                // if (count < 8 && dir == 'right'){
+                //     count ++;
+                // }
+                // if (count == 0) {
+                //     dir = 'left'
+                // }
+                // if (count > 0 && dir == 'left') {
+                //     count --;
+                // }
+            }, 500)
+        }
+        document.onload = function () {
+            window.cursorShakingInterval = setInterval(function () {
+                if ($('.editable_p').css('focus')) {
+                    console.log(focus);
+                }
+            }, 500)
         }
     </script>
 </body>

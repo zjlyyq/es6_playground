@@ -16,6 +16,9 @@
         .box img {
             height: 100%;
         }
+        .transformed {
+            transform: translateZ(10);
+        }
     </style>
 </head>
 <body>
@@ -32,7 +35,7 @@
         <div class="box" style="background: #fff;">
             <img src="./static/imgs/se_white.png" alt="2" class="lazy">
         </div>
-        <div class="box" style="background: #960b19;">
+        <div class="box transformed" style="background: #960b19;transition-delay: .1s;">
             <img src="./static/imgs/se_red.png" alt="3" class="lazy">
         </div>
     </div>
