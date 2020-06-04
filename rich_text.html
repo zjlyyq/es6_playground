@@ -10,95 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <!-- 矢量图标库 -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <style>
-        .title {
-            text-align: center;
-            font-family: Coca-ColaCareFontKaiTi;
-        }
-        .editable_p {
-            min-height: 300px;
-            /* margin: 10px 0; */
-            /* font-family: Coca-ColaCareFontKaiTi; */
-        }
-
-        div[contenteditable='true']:focus {
-            caret-color: rgb(221, 139, 32);
-            /* background:#ddd; */
-            outline: 0px solid rgba(0, 0, 0, .2);
-            /* padding: 10px 5px; */
-            font-size: 24px;
-        }
-
-        div[contenteditable='true'] {
-            caret-color: rgb(221, 139, 32);
-            /* background:#ddd; */
-            outline: 0px solid rgba(0, 0, 0, .1);
-            /* padding: 10px 5px; */
-            font-size: 24px;
-            /* font-weight: bolder; */
-            color: rgb(221, 139, 32);
-            letter-spacing: 1px;
-            /* text-indent: 1em; */
-        }
-        div[contenteditable='true'] p{
-            margin:0;
-            padding: 0;
-        }
-        img {
-            display: block;
-            outline: 1px solid;
-        }
-
-        @font-face {
-            font-family: 'Coca-ColaCareFontKaiTi';
-            src: url('./Coca-ColaCareFontKaiTi.TTF');
-            /* background: url(./static/imgs/bolder.png) no-repeat; */
-        }
-        
-        .control_paner {
-            margin: 0 auto;
-            width: 70%;
-            padding: 0 !important;
-        }
-        .control_paner button {
-            background-color: white;
-            border: 0px solid;
-            margin: 0;
-            /* background-repeat: no-repeat;
-            background-clip: border-box;
-            background-position: center;
-            background-size: cover; */
-        }
-        .control_paner button:focus{
-            outline: 0px solid;
-        }
-        .fa {
-            color: rgba(0, 0, 0, .3);
-        }
-        .fa:hover {
-            color: rgba(0, 0, 0, 1);
-        }
-        .container {
-            width: 70%;
-            margin: 0 auto;
-        }
-        .medium-edit-button {
-            padding: 5px 7px;
-        }
-        .content {
-            min-height: 500px;
-            margin-top: 60px;
-        }
-        .article-title{
-            width: 100%;
-            font-size: 36px;
-            outline: 0 solid;
-            cursor: text;
-            resize: none;
-            padding: 0;
-            font-weight: bolder;
-        }
-    </style>
+    <link rel="stylesheet" href="./rich-text.css">
 </head>
 
 <body>
@@ -113,7 +25,7 @@
                 <button class="medium-edit-button"><i class="fa fa-strikethrough"></i></button>
                 <button class="medium-edit-button"><i class="fa fa-align-justify"></i></button>
                 <!-- ofimage -->
-                <button class="medium-edit-button"><i class="fa fa-image"></i></button>
+                <button class="medium-edit-button" onclick="upload()"><i class="fa fa-image"></i></button>
                 <button class="medium-edit-button"><i class="fa fa-save"></i></button>
                 <button class="medium-edit-button"><i class="fa fa-code"></i></button>
                 <button class="medium-edit-button"><i class="fa fa-rotate-right fa-pulse"></i></button>
@@ -122,19 +34,21 @@
         </div>
         <div class="content">
             <textarea class="article-title" placeholder="输入标题..." name="" id=""  rows="1">
-
             </textarea>
             <div class="editable_p" 
                 contenteditable="true" 
                 aria-placeholder="edit..." 
-                data-placeholder="输入正文...">
+                data-placeholder="输入正文..."
+                onclick="clickListener()">
             </div>
-            <p class="editable_p" contenteditable="true" ></p>
+            <!-- <p class="editable_p" contenteditable="true" ></p> -->
         </div>
+        <input type="file" id="uploader"style="display: none;" onchange="fileChange()">
         <button class="btn btn-success" onclick="getMouseSelection()">获取鼠标选中</button>
         <button class="btn btn-success" onclick="rangeCreation()">创建range</button>
         <button class="btn btn-success" onclick="deleteSelected()">删除range</button>
-        <button class="btn btn-success" onclick="bolderSelected()">字体加粗</button>
+        <button class="btn btn-success" onclick="bolderSelected()">字体加粗</button>setEnd
+        <button class="btn btn-success" onclick="moveRangeEnd()">setEnd</button>
         <!-- <img src="./static/imgs/GameGril_4K.jpeg" width="200px" alt="" srcset="">
         <img alt="替换元素"> -->
     </div>
@@ -148,6 +62,51 @@
                 return false;
             }
         });
+        // 鼠标点击到编辑框监听
+        function clickListener() {
+            console.log('click');
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            console.log(range);
+        }
+        function fileChange() {
+            var file = document.getElementById('uploader');
+            var img = file.files[0];
+            console.log(img);
+            var reader = new FileReader();
+            reader.onload = event=>{
+                var imgUrl = event.target.result;
+                var selection = window.getSelection();
+                var range = selection.getRangeAt(0);
+                // console.log(range);
+                // // console.log(range.endContainer);
+                // var startNode = range.startContainer;
+                // var endNode = range.endContainer;
+                // console.log(startNode,endNode);
+                var imgNode = document.createElement('img');
+                imgNode.setAttribute('src',imgUrl);
+                imgNode.style.width = "100%";
+                range.insertNode(imgNode);
+                range.setEnd(imgNode.parentElement,0)
+                console.log(range);
+                // range.collapse(false);
+            };
+            reader.readAsDataURL(img);
+        }
+        function upload() {
+            var file = document.getElementById('uploader');
+            console.log(file)
+            file.click();
+        }
+        function moveRangeEnd() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            var cartP = document.caretPositionFromPoint();
+            console.log(cartP);
+            var endNode = range.endContainer;
+            range.setEnd(endNode,1);
+            console.log(range)
+        }
         function bolderSelected() {
             var selection = window.getSelection();
             var range = selection.getRangeAt(0);
