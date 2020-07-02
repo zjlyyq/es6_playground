@@ -49,7 +49,18 @@ class Trie {
     }
 }
 
-tree = new Trie()
-tree.insert('hello')
-tree.search('hello')
-tree.startsWith('hel')
+function generateTrieTree() {
+    return new Trie()
+}
+
+// tree = new Trie()
+// tree.insert('hello')
+// tree.search('hello')
+// tree.startsWith('hel')?
+console.log('module.exports === exports?', module.exports === exports)
+console.log(module.exports)
+// module.exports = generateTrieTree
+exports.treeInit = generateTrieTree
+console.log(module.exports)
+console.log('module.exports === exports?', module.exports === exports)
+console.log('eeee')
