@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex布局</title>
+    <style>
+        .fixed-div{
+            position: fixed;
+            background: #b5b4db;
+        }
+        header {
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            background: #abdfde;
+            margin: 10px 10px; 
+        } 
+        .container {
+            height: 100%;
+            background: #f00;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            background: #5753db;
+            height: 136px;
+            margin: 10px ;
+        }
+        .flex-container {
+            flex: 1;
+            background: #33808a;
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed-div" style="top:0;left:0;right:0;bottom:100px;">
+        <div class="container">
+            <header>header</header>
+            <!-- <div class="content"></div>
+            <div class="flex-container"></div> -->
+        </div>
+    </div>
+</body>
+</html>

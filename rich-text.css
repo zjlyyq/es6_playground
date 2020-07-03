@@ -1,0 +1,99 @@
+.title {
+    text-align: center;
+    font-family: Coca-ColaCareFontKaiTi;
+}
+
+.editable_p {
+    min-height: 300px;
+    /* margin: 10px 0; */
+    /* font-family: Coca-ColaCareFontKaiTi; */
+}
+
+div[contenteditable='true']:focus {
+    caret-color: rgb(221, 139, 32);
+    /* background:#ddd; */
+    outline: 0px solid rgba(0, 0, 0, .2);
+    /* padding: 10px 5px; */
+    font-size: 24px;
+}
+
+div[contenteditable='true'] {
+    caret-color: rgb(221, 139, 32);
+    /* background:#ddd; */
+    outline: 0px solid rgba(0, 0, 0, .1);
+    /* padding: 10px 5px; */
+    font-size: 24px;
+    /* font-weight: bolder; */
+    color: rgb(221, 139, 32);
+    letter-spacing: 1px;
+    /* text-indent: 1em; */
+}
+
+div[contenteditable='true'] p {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    display: block;
+    /* outline: 1px solid; */
+}
+
+@font-face {
+    font-family: 'Coca-ColaCareFontKaiTi';
+    src: url('./Coca-ColaCareFontKaiTi.TTF');
+    /* background: url(./static/imgs/bolder.png) no-repeat; */
+}
+
+.control_paner {
+    margin: 0 auto;
+    width: 70%;
+    padding: 0 !important;
+}
+
+.control_paner button {
+    background-color: white;
+    border: 0px solid;
+    margin: 0;
+    /* background-repeat: no-repeat;
+            background-clip: border-box;
+            background-position: center;
+            background-size: cover; */
+}
+
+.control_paner button:focus {
+    outline: 0px solid;
+}
+
+.fa {
+    color: rgba(0, 0, 0, .3);
+}
+
+.fa:hover {
+    color: rgba(0, 0, 0, 1);
+}
+
+.container {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.medium-edit-button {
+    padding: 5px 7px;
+}
+
+.content {
+    min-height: 500px;
+    margin-top: 60px;
+}
+
+.article-title {
+    width: 100%;
+    font-size: 36px;
+    outline: 0 solid;
+    cursor: text;
+    resize: none;
+    padding: 0;
+    font-weight: bolder;
+    border: 0px solid #fff;
+}

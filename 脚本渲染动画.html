@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>脚本渲染动画</title>
+    <style>
+
+        .banner {
+            width:80%;
+            margin: 0 auto;
+            /* text-align: center; */
+        }
+        img {
+            width: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="./static/imgs/IMG_8476.JPG" alt="" srcset="" id="banner01">
+    </div>
+
+    <script>
+        var start = null;
+        var progress = 0;
+        var banner_img = document.getElementById('banner01');
+        banner_img.style.position = "relative";
+        function step(timestamp) {
+            if (!start) start = timestamp;
+            else {
+                console.log("间隔：",timestamp - start - progress);
+            }
+            progress = timestamp - start; 
+            banner_img.style.left = (progress % 80) + "%";
+            window.requestAnimationFrame(step);
+        }
+        window.requestAnimationFrame(step);
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ var person = {
 }
 
 Object.defineProperty(person, 'name', {
+
     get: function() {
         return this._firstName + ' ' + this._lastName;
     },
@@ -19,9 +20,9 @@ Object.defineProperty(person, 'name', {
 // })
 
 
-// console.log(person.name);
-// person.name = 'Jialu';
-// console.log(person.name);
+console.log(person.name);
+person.name = 'Jialu';
+console.log(person.name);
 
 // let descriptor = Object.getOwnPropertyDescriptor(person, 'name');
 // console.log(descriptor);

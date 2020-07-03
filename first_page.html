@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首屏以下懒加载</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        div.container,div.box {
+            height: 100%;
+            text-align: center;
+        }
+        .box img {
+            height: 100%;
+        }
+        .transformed {
+            transform: translateZ(10);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box" style="background: #000;">
+            <img src="./static/imgs/se_black.png" alt="1" class="lazy">
+        </div>
+        <div class="box" style="background: #fff;">
+            <img src="./static/imgs/se_white.png" alt="2" class="lazy">
+        </div>
+        <div class="box" style="background: #960b19;">
+            <img src="./static/imgs/se_red.png" alt="3" class="lazy">
+        </div>
+        <div class="box" style="background: #fff;">
+            <img src="./static/imgs/se_white.png" alt="2" class="lazy">
+        </div>
+        <div class="box transformed" style="background: #960b19;transition-delay: .1s;">
+            <img src="./static/imgs/se_red.png" alt="3" class="lazy">
+        </div>
+    </div>
+    <!-- <p contenteditable="true" >这是一个可编辑内容的p标签啦啦~</p> -->
+    <script>
+        var offsetTopLast = 0;
+        var lock = 0;
+        function noScroll(event) {
+            console.log('touchmove');
+            event.preventDefault();
+        }
+        function scrollTop(detail) {
+            console.log('滚动！！！', detail);
+            let clientHeight = document.documentElement.clientHeight;
+            let offsetTop = document.documentElement.scrollTop;
+            console.log('clientHeight:',clientHeight);
+            console.log('offsetTop:',offsetTop);
+            // up
+            if (offsetTop > offsetTopLast) {
+                console.log('up');
+                document.documentElement.scrollTop = clientHeight * (parseInt(offsetTop/clientHeight) + 1);
+            }
+            // down
+            else {
+                console.log('down');
+                document.documentElement.scrollTop = clientHeight * (parseInt(offsetTop/clientHeight));
+            }
+            window.onscroll = undefined;
+            setTimeout(function() {
+                window.onscroll = scrollTop;
+                console.log('this', this);
+            },200);
+            offsetTopLast = document.documentElement.scrollTop;
+        }
+        
+        // window.onscroll = noScroll;
+        document.addEventListener('touchmove', noScroll, false)
+    </script>
+</body>
+</html>

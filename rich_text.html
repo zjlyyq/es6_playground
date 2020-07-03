@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rich editer</title>
+    <link rel="shortcut icon" href="./static/imgs/IMG_0409 2.PNG">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <!-- 矢量图标库 -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="./rich-text.css">
+</head>
+
+<body>
+    <div class="container">
+        <h4 class="title">简易版富文本编辑器</h4>
+        <div style="position: fixed;width: 100%;top:60px;left:0;border-bottom: 1px solid #f7f7f7;">
+            <ul class="control_paner" >
+                <button class="medium-edit-button" onclick="bolderSelected()"><i class="fa fa-bold"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-italic"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-link"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-underline"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-strikethrough"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-align-justify"></i></button>
+                <!-- ofimage -->
+                <button class="medium-edit-button" onclick="upload()"><i class="fa fa-image"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-save"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-code"></i></button>
+                <button class="medium-edit-button"><i class="fa fa-rotate-right fa-pulse"></i></button>
+                <!-- <button style="background-image: url(./static/imgs/insert_photo_24px_rounded.png); "></button > -->
+            </ul>
+        </div>
+        <div class="content">
+            <textarea class="article-title" placeholder="输入标题..." name="" id=""  rows="1">
+            </textarea>
+            <div class="editable_p" 
+                contenteditable="true" 
+                aria-placeholder="edit..." 
+                data-placeholder="输入正文..."
+                onclick="clickListener()">
+            </div>
+            <!-- <p class="editable_p" contenteditable="true" ></p> -->
+        </div>
+        <input type="file" id="uploader"style="display: none;" onchange="fileChange()">
+        <button class="btn btn-success" onclick="getMouseSelection()">获取鼠标选中</button>
+        <button class="btn btn-success" onclick="rangeCreation()">创建range</button>
+        <button class="btn btn-success" onclick="deleteSelected()">删除range</button>
+        <button class="btn btn-success" onclick="bolderSelected()">字体加粗</button>setEnd
+        <button class="btn btn-success" onclick="moveRangeEnd()">setEnd</button>
+        <!-- <img src="./static/imgs/GameGril_4K.jpeg" width="200px" alt="" srcset="">
+        <img alt="替换元素"> -->
+    </div>
+    <script>
+        $('div[contenteditable]').keydown(function(e) {
+            // trap the return key being pressed
+            if (e.keyCode === 13) {
+                // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
+                document.execCommand('insertHTML', false, '<p><br></p>');
+                // prevent the default behaviour of return key pressed
+                return false;
+            }
+        });
+        // 鼠标点击到编辑框监听
+        function clickListener() {
+            console.log('click');
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            console.log(range);
+        }
+        function fileChange() {
+            var file = document.getElementById('uploader');
+            var img = file.files[0];
+            console.log(img);
+            var reader = new FileReader();
+            reader.onload = event=>{
+                var imgUrl = event.target.result;
+                var selection = window.getSelection();
+                var range = selection.getRangeAt(0);
+                // console.log(range);
+                // // console.log(range.endContainer);
+                // var startNode = range.startContainer;
+                // var endNode = range.endContainer;
+                // console.log(startNode,endNode);
+                var imgNode = document.createElement('img');
+                imgNode.setAttribute('src',imgUrl);
+                imgNode.style.width = "100%";
+                range.insertNode(imgNode);
+                range.setEnd(imgNode.parentElement,0)
+                console.log(range);
+                // range.collapse(false);
+            };
+            reader.readAsDataURL(img);
+        }
+        function upload() {
+            var file = document.getElementById('uploader');
+            console.log(file)
+            file.click();
+        }
+        function moveRangeEnd() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            var cartP = document.caretPositionFromPoint();
+            console.log(cartP);
+            var endNode = range.endContainer;
+            range.setEnd(endNode,1);
+            console.log(range)
+        }
+        function bolderSelected() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            var bNode = document.createElement('b');
+            bNode.innerText = (range.toString());
+            console.log(bNode);
+            range.deleteContents();
+            range.insertNode(bNode);
+        }
+        function deleteSelected() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            range.deleteContents();
+        }
+        function rangeCreation() {
+            console.log('createRange');
+            var range1 = document.createRange();
+            var edit_div = $('.editable_p')[0];
+            range1.selectNode(edit_div);
+            var documentFragment = range1.cloneContents();
+            console.log('documentFragment', documentFragment);
+            document.body.appendChild(documentFragment);
+            range1.deleteContents();
+        }
+        function getMouseSelection() {
+            var selection = window.getSelection();
+            // alert(window.getSelection());
+            console.log(selection);
+            var range = selection.getRangeAt(0);
+            console.log("range", range);
+            var edit_div = $('.editable_p')[0];
+            console.log(edit_div);
+            var count = 8;
+            var dir = 'right';
+            // selection.collapse(document.body,0);
+            selection.modify("extend", "backward", "word");
+            console.log(selection);
+            setTimeout(() => {
+                selection.modify("extend", "backward", "word");
+                console.log(selection);
+            }, 10000);
+            console.log(selection);
+            setInterval(function () {
+                // if (count < 8 && dir == 'right'){
+                //     count ++;
+                // }
+                // if (count == 0) {
+                //     dir = 'left'
+                // }
+                // if (count > 0 && dir == 'left') {
+                //     count --;
+                // }
+            }, 500)
+        }
+        document.onload = function () {
+            window.cursorShakingInterval = setInterval(function () {
+                if ($('.editable_p').css('focus')) {
+                    console.log(focus);
+                }
+            }, 500)
+        }
+    </script>
+</body>
+
+</html>

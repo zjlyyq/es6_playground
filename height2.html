@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绝对定位 + height:100%;</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .box {
+            display: inline-box;
+            position: relative;
+            width: 100%;
+        }
+        .box img {
+            width: 100%;
+        }
+        .left,.right {
+            position: absolute;
+            height: 100%;
+        }
+        .left {
+            left:0;
+            top:0;
+            right: 60%;
+            background: #acde12;
+        }
+        .right {
+            right:0;
+            top:0;
+            left: 60%;
+            background: #0cde12;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <img src="./static/imgs/IMG_0409 2.PNG" alt="" srcset="">
+            <div class="left">
+
+            </div>
+            <div class="right">
+
+            </div>
+        </div>  
+    </div>
+
+</body>
+</html>
