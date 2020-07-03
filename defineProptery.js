@@ -1,17 +1,33 @@
-let data = {
-    name: 'zjl',
-    age: 20
+var person = {
+    _firstName: "Zhang",
+    _lastName: "San"
 }
 
-
-Object.defineProperty(data, 'name', {
+Object.defineProperty(person, 'name', {
     get: function() {
-        console.log('data is read');
-        return data['name'];
+        return this._firstName + ' ' + this._lastName;
     },
-    set: function(value) {
-        data['name'] = value;
-        console.log('name is changed by ', vlaue);
+
+    set: function(lastName) {
+        this._lastName = lastName;
+        console.log('Congratulations!!!');
     }
 })
-data.name = 'yyq';
+
+// Object.defineProperty(person, 'name', {
+//     configurable: true
+// })
+
+
+// console.log(person.name);
+// person.name = 'Jialu';
+// console.log(person.name);
+
+// let descriptor = Object.getOwnPropertyDescriptor(person, 'name');
+// console.log(descriptor);
+
+Object.keys(person, function(key) {
+    console.log(key)
+    let descriptor = Object.getOwnPropertyDescriptor(person, key);
+    console.log(descriptor);
+})
