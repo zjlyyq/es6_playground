@@ -1,20 +1,21 @@
 class Trie {
     constructor() {
-        this.nextLevel = [];
+        this.root = {};
+        this.END_OF_WORD = "#";
     }
     /**
      * @param {string} word 
      * @return {void}
      */
     insert(word) {
-        let level = this.nextLevel;
+        let node = this.root;
         for(let c of word){
-            if (level[c] === void 0) {
-                level[c] = new Trie();
+            if (node[c] === void 0) {
+                node[c] = {};
             }
-            level = level[c];
+            node = node[c];
         }
-        level["#"] = true;
+        node[this.END_OF_WORD] = true;
     }
 
     /**
@@ -22,14 +23,14 @@ class Trie {
      * @return {bollean}
      */
     search(word) {
-        let level = this.nextLevel;
+        let node = this.root;
         for(let c of word){
-            if (level[c] === void 0) {
+            if (node[c] === void 0) {
                 return false;
             }
-            level = level[c];
+            node = node[c];
         }
-        return level["#"] != undefined;
+        return node[this.END_OF_WORD] != undefined;
     }
     
     /**
@@ -38,12 +39,12 @@ class Trie {
      * @return {bollean} 
      */
     startsWith(word) {
-        let level = this.nextLevel;
+        let node = this.root;
         for(let c of word){
-            if (level[c] === void 0) {
+            if (node[c] === void 0) {
                 return false;
             }
-            level = level[c];
+            node = node[c];
         }
         return true;
     }
@@ -53,10 +54,10 @@ function generateTrieTree() {
     return new Trie()
 }
 
-// tree = new Trie()
-// tree.insert('hello')
-// tree.search('hello')
-// tree.startsWith('hel')?
+tree = new Trie()
+tree.insert('hello')
+console.log(tree.search('hello'))
+
 console.log('module.exports === exports?', module.exports === exports)
 console.log(module.exports)
 // module.exports = generateTrieTree

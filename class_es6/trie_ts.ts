@@ -1,9 +1,8 @@
 class Trie_ts {
-    nextLevel: Trie_ts[] = [];
-    isEnd: Number = 0;
+    root = {}
+    
     constructor () {
-        this.nextLevel = [];
-        this.isEnd = 0;
+        this.root = {};
     }
 
     insert(word: string): void {
